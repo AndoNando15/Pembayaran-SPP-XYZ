@@ -113,11 +113,19 @@ class SiswaController extends Controller
         if ($request->hasFile('foto_profile')) {
             $path = $request->file('foto_profile')->store('public/foto_profile_siswa');
             $validated['foto_profile'] = basename($path);
+        } else {
+            // Jika tidak ada foto yang di-upload, tetap gunakan foto lama
+            $validated['foto_profile'] = $user->foto_profile;
+        }
+
+        // Handle password update if provided
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
         }
 
         // Update data pengguna
         $user->update([
-            'foto_profile' => $validated['foto_profile'] ?? $user->foto_profile,
+            'foto_profile' => $validated['foto_profile'], // Foto Profile
             'nisn' => $validated['nisn'],
             'nama_lengkap' => $validated['nama_lengkap'],
             'jenis_kelamin' => $validated['jenis_kelamin'],
@@ -128,11 +136,12 @@ class SiswaController extends Controller
             'email' => $validated['email'],
             'no_telepon' => $validated['no_telepon'],
             'terdaftar' => now(),
-            'password' => $request->password ? Hash::make($validated['password']) : $user->password, // Password hanya diubah jika diisi
+            'password' => $request->password ? bcrypt($validated['password']) : $user->password, // Password hanya diubah jika diisi
         ]);
 
         return redirect()->route('data-siswa.index')->with('success', 'Siswa berhasil diperbarui.');
     }
+
 
 
     public function destroy($id)

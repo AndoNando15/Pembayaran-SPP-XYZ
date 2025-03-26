@@ -77,7 +77,7 @@ class DataKelasController extends Controller
         $request->validate([
             'kelas' => 'required|string|max:255',
             'level' => 'required|string|max:255',
-            'wali_kelas' => 'required|exists:gurus,id',  // Ensure the selected teacher exists in the `gurus` table
+            'wali_kelas' => 'required|exists:guru,id',  // Ensure the selected teacher exists in the `gurus` table
         ]);
 
         $kelas = Kelas::findOrFail($id);

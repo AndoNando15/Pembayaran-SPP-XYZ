@@ -24,7 +24,7 @@
                             <th>KELAS</th>
                             <th>LEVEL</th>
                             <th>WALI KELAS</th>
-                            <th>TAGIHAN</th>
+                            {{-- <th>TAGIHAN</th> --}}
                             <th>TAGIHAN KELAS</th>
                             <th>TERAKHIR DI PERBARUI</th>
                             <th>AKSI</th>
@@ -38,22 +38,17 @@
                                 <td>{{ $k->level }}</td>
                                 <td>{{ $k->waliKelas->nama_guru }}</td>
 
-                                <td>{{ $k->jatuh_tempo ? $k->jatuh_tempo->format('Y-m-d') : 'Tidak Ada' }}</td>
+                                {{-- <td>{{ $k->jatuh_tempo ? $k->jatuh_tempo->format('Y-m-d') : 'Tidak Ada' }}</td> --}}
                                 <td>
                                     <a href="{{ route('data-kelas.tagihan', ['id' => $k->id]) }}"
                                         class="btn btn-primary btn-sm">LIHAT TAGIHAN</a>
                                 </td>
 
-
                                 <td>{{ $k->updated_at->format('Y-m-d H:i:s') }}</td>
                                 <td>
                                     <a href="{{ route('data-kelas.edit', $k->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('data-kelas.destroy', $k->id) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
+                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"
+                                        data-id="{{ $k->id }}" data-name="{{ $k->kelas }}">Delete</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -63,4 +58,50 @@
         </div>
     </div>
 
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin menghapus kelas <strong id="kelasName"></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('data-kelas.destroy', $k->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('scripts')
+    <script>
+        // Set up the modal with the correct ID and name when the delete button is clicked
+        $('#deleteModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var kelasId = button.data('id'); // Extract the kelas ID
+            var kelasName = button.data('name'); // Extract the kelas name
+
+            // Update the modal's content
+            var modal = $(this);
+            modal.find('#kelasName').text(kelasName);
+            modal.find('#kelasId').val(kelasId); // Set the ID in the hidden input field
+
+            // Update form action dynamically to include the correct kelas ID
+            var actionUrl = "{{ route('data-kelas.destroy', ':id') }}".replace(':id', kelasId);
+            modal.find('#deleteForm').attr('action', actionUrl);
+        });
+    </script>
 @endsection

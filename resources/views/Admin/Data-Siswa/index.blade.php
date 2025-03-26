@@ -21,16 +21,8 @@
                     <thead class="bg-primary text-white text-center">
                         <tr class="text-center">
                             <th>NO</th>
-                            <th>PROFILE</th>
-                            <th>NISN</th>
-                            <th>NAMA LENGKAP</th>
-                            <th>JENIS KELAMIN</th>
-                            <th>TEMPAT LAHIR</th>
-                            <th>TANGGAL LAHIR</th>
-                            <th>ALAMAT</th>
                             <th>KELAS</th>
                             <th>EMAIL</th>
-                            {{-- <th>PASSWORD</th> --}}
                             <th>NO TELEPON</th>
                             <th>TAGIHAN</th>
                             <th>TERDAFTAR</th>
@@ -40,23 +32,10 @@
                     </thead>
                     <tbody>
                         @foreach ($users as $user)
-                            <!-- Changed from $siswa to $users -->
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td><img src="{{ asset('storage/foto_profile_siswa/' . $user->foto_profile) }}"
-                                        alt="Profile" width="100">
-                                </td>
-                                <td>{{ $user->nisn }}</td>
-                                <td>{{ $user->nama_lengkap }}</td>
-                                <td>{{ $user->jenis_kelamin }}</td>
-                                <td>{{ $user->tempat_lahir }}</td>
-                                <td>{{ $user->tanggal_lahir }}</td>
-                                <td>{{ $user->alamat }}</td>
                                 <td>{{ $user->kelas }}</td>
-
-                                <!-- Show class name and level -->
                                 <td>{{ $user->email }}</td>
-                                {{-- <td>{{ $user->password }}</td> --}}
                                 <td>{{ $user->no_telepon }}</td>
                                 <td>{{ $user->jatuh_tempo }}</td>
                                 <td>{{ $user->terdaftar }}</td>
@@ -64,12 +43,9 @@
                                 <td>
                                     <a href="{{ route('data-siswa.edit', $user->id) }}"
                                         class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('data-siswa.destroy', $user->id) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
+                                    <!-- Trigger modal -->
+                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"
+                                        data-id="{{ $user->id }}" data-name="{{ $user->nama_lengkap }}">Hapus</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -79,4 +55,50 @@
         </div>
     </div>
 
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin menghapus siswa <strong id="siswaName"></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <!-- Correct the form method here -->
+                    <form action="{{ route('data-siswa.destroy', $user->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger ">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('scripts')
+    <script>
+        // Set up the modal with the correct ID and name when the delete button is clicked
+        $('#deleteModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var siswaId = button.data('id'); // Extract the siswa ID
+            var siswaName = button.data('name'); // Extract the siswa name
+
+            // Update the modal's content
+            var modal = $(this);
+            modal.find('#siswaName').text(siswaName);
+            modal.find('#siswaId').val(siswaId); // Set the ID in the hidden input field
+
+            // Update the form action URL with the siswaId
+            modal.find('#deleteForm').attr('action', '/data-siswa/destroy/' + siswaId);
+        });
+    </script>
 @endsection

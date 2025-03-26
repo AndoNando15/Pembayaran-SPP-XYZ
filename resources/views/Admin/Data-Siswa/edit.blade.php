@@ -28,7 +28,6 @@
                         value="{{ old('nisn', $user->nisn) }}" required>
                 </div>
 
-
                 <!-- Nama Lengkap -->
                 <div class="form-group">
                     <label for="nama_lengkap">Nama Lengkap</label>
@@ -71,20 +70,17 @@
                 </div>
 
                 <!-- Kelas -->
-
-
-                <!-- Kelas -->
                 <div class="form-group">
                     <label for="kelas">Kelas</label>
                     <select class="form-control" name="kelas" id="kelas" required>
                         @foreach ($kelas as $kelasItem)
                             <option value="{{ $kelasItem->level }}"
-                                {{ old('kelas') == $kelasItem->level ? 'selected' : '' }}>
-                                {{ $kelasItem->level }}</option>
+                                {{ old('kelas', $user->kelas) == $kelasItem->level ? 'selected' : '' }}>
+                                {{ $kelasItem->level }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
-
 
                 <!-- Email -->
                 <div class="form-group">

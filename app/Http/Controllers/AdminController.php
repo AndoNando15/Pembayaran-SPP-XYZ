@@ -36,6 +36,8 @@ class AdminController extends Controller
     }
     public function update(Request $request, $id)
     {
+
+        // dd($request->all());
         $user = User::findOrFail($id);
 
         // Validate form data
@@ -53,6 +55,7 @@ class AdminController extends Controller
             $path = $request->file('foto_profile')->store('foto_profile', 'public');
             $user->foto_profile = $path;
         }
+
 
         // Handle password update if provided
         if ($request->filled('password')) {
@@ -87,8 +90,12 @@ class AdminController extends Controller
         $fotoProfilePath = null;
         if ($request->hasFile('foto_profile')) {
             // Store the uploaded image in 'public/foto_profile'
-            $fotoProfilePath = $request->file('foto_profile')->store('public/foto_profile');
+            $fotoProfilePath = $request->file('foto_profile')->store('foto_profile', 'public');
         }
+
+
+
+
 
         // Create a new admin user
         $user = User::create([

@@ -20,7 +20,7 @@
                     <thead class="bg-primary text-white text-center">
                         <tr class="text-center">
                             <th>NO</th>
-                            <th>PROFILE</th> <!-- Added Profile Picture column here -->
+                            <th>PROFILE</th>
                             <th>NUPTK</th>
                             <th>NAMA GURU</th>
                             <th>EMAIL</th>
@@ -36,7 +36,6 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
-                                    <!-- Display the profile picture if available -->
                                     @if ($guru->foto_profile)
                                         <img src="{{ Storage::url($guru->foto_profile) }}" alt="Foto Profile" width="100"
                                             height="auto">
@@ -54,12 +53,9 @@
                                 <td>
                                     <a href="{{ route('data-guru.edit', $guru->id) }}"
                                         class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('data-guru.destroy', $guru->id) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
+                                    <!-- Trigger modal for delete -->
+                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"
+                                        data-id="{{ $guru->id }}" data-name="{{ $guru->nama_guru }}">Delete</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -68,4 +64,50 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin menghapus guru <strong id="guruName"></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('data-guru.destroy', $guru->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('scripts')
+    <script>
+        // Set up the modal with the correct ID and name when the delete button is clicked
+        $('#deleteModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var guruId = button.data('id'); // Extract the guru ID
+            var guruName = button.data('name'); // Extract the guru name
+
+            // Update the modal's content
+            var modal = $(this);
+            modal.find('#guruName').text(guruName);
+            modal.find('#guruId').val(guruId); // Set the ID in the hidden input field
+
+            // Update the form action URL with the guruId
+            modal.find('#deleteForm').attr('action', '/data-guru/destroy/' + guruId);
+        });
+    </script>
 @endsection
