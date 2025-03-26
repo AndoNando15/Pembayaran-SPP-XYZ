@@ -137,7 +137,59 @@ class DataKelasController extends Controller
             'user'
         ));
     }
+    public function saveTagihan(Request $request)
+    {
+        // Mendapatkan user yang sedang login
+        $user = Auth::user();
 
+        // Validasi data form
+        $request->validate([
+            'nisn_id' => 'required',
+            'nama_lengkap_id' => 'required',
+            'tagihan' => 'required',
+            'tanggal' => 'required|date',
+            'batas_waktu' => 'required|date',
+            'kelas' => 'required',
+            'nominal' => 'required|numeric',
+            'keterangan' => 'nullable|string',
+            'terdaftar' => 'required|date',
+            'cash' => 'required|numeric',
+            'status' => 'required|numeric'
+        ]);
+
+        // Memformat tanggal ke format yang sesuai dengan MySQL (YYYY-MM-DD)
+        $tanggal = Carbon::createFromFormat('d F Y', $request->tanggal)->format('Y-m-d');
+        $batas_waktu = Carbon::createFromFormat('d F Y', $request->batas_waktu)->format('Y-m-d');
+        $terdaftar = Carbon::createFromFormat('d F Y', $request->terdaftar)->format('Y-m-d');
+
+        // Membuat entri baru di tabel TagihanSiswa
+        $tagihan = new TagihanSiswa();
+        $tagihan->nisn_id = $request->nisn_id;
+        $tagihan->nama_lengkap_id = $request->nama_lengkap_id;
+        $tagihan->tagihan = $request->tagihan;
+        $tagihan->tanggal = $tanggal;  // Memasukkan tanggal yang sudah diformat
+        $tagihan->batas_waktu = $batas_waktu;  // Memasukkan batas waktu yang sudah diformat
+        $tagihan->kelas = $request->kelas;
+        $tagihan->nominal = $request->nominal;
+        $tagihan->keterangan = $request->keterangan;
+        $tagihan->terdaftar = $terdaftar;  // Memasukkan terdaftar yang sudah diformat
+        $tagihan->pembayaran = $request->pembayaran;
+        $tagihan->bukti_pembayaran = $request->bukti_pembayaran;
+        $tagihan->cash = $request->cash;  // Jumlah yang dimasukkan oleh user
+        $tagihan->status = $request->status;  // Jumlah yang dimasukkan oleh user
+
+        // Menyimpan nama user yang sedang login
+        $tagihan->user = $user->nama_lengkap;
+
+        // Menyimpan data ke database
+        if ($tagihan->save()) {
+            // Mengarahkan kembali dengan pesan sukses dan data tagihan yang disimpan
+            return back()->with('success', 'Tagihan berhasil disimpan')->with('tagihan', $tagihan);
+        }
+
+        // Jika ada masalah saat menyimpan
+        return back()->with('error', 'Gagal menyimpan tagihan');
+    }
 
 
     public function approve(Request $request)

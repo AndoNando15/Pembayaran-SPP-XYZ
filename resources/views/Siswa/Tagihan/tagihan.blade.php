@@ -109,7 +109,7 @@
 
                         <div id="paymentAmountSection">
                             {{-- <label for="paymentAmount"><strong>Tunai:</strong></label> --}}
-                            <form action="{{ route('tagihan.siswa.save') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('tagihan.siswas.save') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <!-- Hidden inputs to store data -->
                                 <input type="hidden" class="form-control" name="nisn_id" id="nisn_id"
@@ -176,6 +176,8 @@
         <script>
             // Fungsi untuk menampilkan detail modal
             function showDetailModal(tagihan) {
+                console.log('Tagihan Data:', tagihan);
+
                 // Menyisipkan data ke modal
                 document.getElementById('modalTagihan').innerText = tagihan.tagihan || 'No data available';
                 document.getElementById('modalTanggal').innerText = tagihan.tanggal || 'No data available';

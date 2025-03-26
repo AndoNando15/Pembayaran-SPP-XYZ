@@ -189,6 +189,7 @@
                                             Approve
                                         </button>
                                     </td>
+
                                 </tr>
                             @endforeach
                         </tbody>
@@ -230,6 +231,12 @@
                                 <input type="hidden" name="user" id="user">
                                 <!-- Hidden input for logged-in user -->
                                 <button type="submit" class="btn btn-success">Approve</button>
+                            </form>
+                            <!-- Reject Button to delete the tagihan -->
+                            <form id="rejectForm" method="POST" action="{{ route('reject.tagihan') }}">
+                                @csrf
+                                <input type="hidden" name="tagihan_id" id="rejectTagihanId">
+                                <button type="submit" class="btn btn-danger">Reject</button>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -295,6 +302,7 @@
                                     <td>print</td>
                                 </tr>
                             @endforeach
+
                         </tbody>
                     </table>
                 </div>
@@ -331,36 +339,84 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Tagihan:</strong> <span id="modalTagihan"></span></p>
+                    {{-- <p><strong>Tagihan:</strong> <span id="modalTagihan"></span></p>
                     <p><strong>Tanggal:</strong> <span id="modalTanggal"></span></p>
                     <p><strong>Batas Waktu:</strong> <span id="modalBatasWaktu"></span></p>
                     <p><strong>Kelas Tagihan:</strong> <span id="modalKelasTagihan"></span></p>
                     <p><strong>Nominal:</strong> <span id="modalNominal"></span></p>
                     <p><strong>Keterangan:</strong> <span id="modalKeterangan"></span></p>
-                    <p><strong>Terdaftar:</strong> <span id="modalTerdaftar"></span></p>
+                    <p><strong>Terdaftar:</strong> <span id="modalTerdaftar"></span></p> --}}
 
                     <div id="paymentAmountSection">
-                        <label for="paymentAmount"><strong>Tunai:</strong></label>
-                        <form action="{{ route('tagihan.siswa.save') }}" method="POST">
+                        {{-- <label for="paymentAmount"><strong>Tunai:</strong></label> --}}
+                        <form action="{{ route('tagihan.siswa.save') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <input type="       " class="form-control" name="nisn_id"
-                                value="{{ $tagihanSiswara->nisn }}">
-                            <input type="       " class="form-control" name="nama_lengkap_id"
-                                value="{{ $tagihanSiswara->nama_lengkap }}">
-                            <input type="       " class="form-control" name="tagihan">
-                            <input type="       " class="form-control" name="tanggal">
-                            <input type="       " class="form-control" name="batas_waktu">
-                            <input type="       " class="form-control" name="kelas" value="{{ $tagihan->kelas }}">
-                            <input type="       " class="form-control" name="nominal">
-                            <input type="       " class="form-control" name="keterangan">
-                            <input type="       " class="form-control" name="terdaftar">
-                            <input type="       " class="form-control" name="pembayaran" value="cash">
-                            <input type="       " class="form-control" name="status" value="disetujui">
-                            <input type="       " class="form-control" name="bukti_pembayaran" value="cash">
+                            <!-- Input untuk NISN dengan readonly -->
+                            <label for="nisn_id"><strong>NISN:</strong></label>
+                            <input type="text" class="form-control" name="nisn_id" id="nisn_id"
+                                value="{{ $tagihanSiswara->nisn }}" readonly>
+
+                            <!-- Input untuk Nama Lengkap dengan readonly -->
+                            <label for="nama_lengkap_id"><strong>Nama Lengkap:</strong></label>
+                            <input type="text" class="form-control" name="nama_lengkap_id" id="nama_lengkap_id"
+                                value="{{ $tagihanSiswara->nama_lengkap }}" readonly>
+
+                            <!-- Input untuk Tagihan dengan readonly -->
+                            <label for="tagihan"><strong>Tagihan:</strong></label>
+                            <input type="text" class="form-control" name="tagihan" id="tagihan" value=""
+                                readonly>
+
+                            <!-- Input untuk Tanggal dengan readonly -->
+                            <label for="tanggal"><strong>Tanggal:</strong></label>
+                            <input type="text" class="form-control" name="tanggal" id="tanggal" value=""
+                                readonly>
+
+                            <!-- Input untuk Batas Waktu dengan readonly -->
+                            <label for="batas_waktu"><strong>Batas Waktu:</strong></label>
+                            <input type="text" class="form-control" name="batas_waktu" id="batas_waktu"
+                                value="" readonly>
+
+                            <!-- Input untuk Kelas dengan readonly -->
+                            <label for="kelas"><strong>Kelas:</strong></label>
+                            <input type="text" class="form-control" name="kelas" id="kelas" value=""
+                                readonly>
+
+                            <!-- Input untuk Nominal dengan readonly -->
+                            <label for="nominal"><strong>Nominal:</strong></label>
+                            <input type="text" class="form-control" name="nominal" id="nominal" value=""
+                                readonly>
+
+                            <!-- Input untuk Keterangan dengan readonly -->
+                            <label for="keterangan"><strong>Keterangan:</strong></label>
+                            <input type="text" class="form-control" name="keterangan" id="keterangan" value=""
+                                readonly>
+
+                            <!-- Input untuk Terdaftar dengan readonly -->
+                            <label for="terdaftar"><strong>Terdaftar:</strong></label>
+                            <input type="text" class="form-control" name="terdaftar" id="terdaftar" value=""
+                                readonly>
+
+                            <!-- Pembayaran (Transfer) diset otomatis -->
+                            <label for="pembayaran"><strong>Pembayaran:</strong></label>
+                            <input type="text" class="form-control" name="pembayaran" id="pembayaran"
+                                value="Transfer" readonly>
+
+                            <!-- File input untuk bukti_pembayaran -->
+                            {{-- <label for="bukti_pembayaran"><strong>Bukti Pembayaran:</strong></label> --}}
+                            <input type="hidden" class="form-control" name="bukti_pembayaran" id="bukti_pembayaran"
+                                accept="image/*,application/pdf">
+
+                            <!-- Input untuk nominal Tunai -->
+                            <label for="paymentAmount"><strong>Nominal Pembayaran (Tunai):</strong></label>
                             <input type="number" class="form-control" name="cash" id="paymentAmount"
                                 placeholder="Masukkan nominal">
+
+                            <!-- Status diset otomatis -->
+                            <input type="hidden" class="form-control" name="status" value="disetujui" readonly>
+
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
+
 
                     </div>
                 </div>
@@ -417,12 +473,16 @@
             // Set hidden input fields
             document.getElementById('tagihanId').value = tagihan.id;
             document.getElementById('user').value = tagihan.user;
+            document.getElementById('rejectTagihanId').value = tagihan.tagihanId;
+
         }
     </script>
     <script>
         // Fungsi untuk menampilkan detail modal
         function showDetailModal(tagihan) {
-            // Set data ke modal
+            console.log('Tagihan Data:', tagihan);
+
+            // Menyisipkan data ke modal
             document.getElementById('modalTagihan').innerText = tagihan.tagihan || 'No data available';
             document.getElementById('modalTanggal').innerText = tagihan.tanggal || 'No data available';
             document.getElementById('modalBatasWaktu').innerText = tagihan.batas_waktu || 'No data available';
@@ -432,18 +492,19 @@
             document.getElementById('modalKeterangan').innerText = tagihan.keterangan || 'No data available';
             document.getElementById('modalTerdaftar').innerText = tagihan.terdaftar || 'No data available';
 
-            // Populate the form fields dynamically with the tagihan data
-            document.querySelector('[name="tagihan"]').value = tagihan.tagihan || '';
-            document.querySelector('[name="tanggal"]').value = tagihan.tanggal || '';
-            document.querySelector('[name="batas_waktu"]').value = tagihan.batas_waktu || '';
-            document.querySelector('[name="nominal"]').value = tagihan.nominal || '';
-            document.querySelector('[name="keterangan"]').value = tagihan.keterangan || '';
-            document.querySelector('[name="terdaftar"]').value = tagihan.terdaftar || '';
-            document.querySelector('[name="cash"]').value = tagihan.paymentAmount ||
-            ''; // Update the cash field with the payment amount
+            // Isi input form dengan data yang benar
+            // document.querySelector('[name="nisn_id"]').value = tagihan.nisn_id;
+            // document.querySelector('[name="nama_lengkap_id"]').value = tagihan.nama_lengkap_id;
+            document.querySelector('[name="tagihan"]').value = tagihan.tagihan;
+            document.querySelector('[name="tanggal"]').value = tagihan.tanggal;
+            document.querySelector('[name="batas_waktu"]').value = tagihan.batas_waktu;
+            document.querySelector('[name="kelas"]').value = tagihan.kelas_tagihan;
+            document.querySelector('[name="nominal"]').value = tagihan.nominal;
+            document.querySelector('[name="keterangan"]').value = tagihan.keterangan;
+            document.querySelector('[name="terdaftar"]').value = tagihan.terdaftar;
+            document.querySelector('[name="cash"]').value = tagihan.paymentAmount || ''; // Cash field
         }
     </script>
-
     <script>
         function showBukti(imageUrl) {
             // Set the source of the image to the URL provided

@@ -36,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/riwayat-pembayaran', [TagihanController::class, 'riwayatPembayaran'])->name('riwayat-pembayaran');
     Route::get('/tagihan/{id}', [TagihanController::class, 'showTagihan'])->name('showTagihan');
     Route::post('/tagihan/siswa/save', [SiswaController::class, 'saveTagihan'])->name('tagihan.siswa.save');
+    // Route for rejecting a tagihan (delete it)
+    Route::post('/tagihan/siswa/reject', [SiswaController::class, 'rejectTagihan'])->name('reject.tagihan');
+
 
     // Data Kelas & Tagihan Siswa
     Route::get('/data-kelas/{kelas_id}/tagihan-siswa/{tagihan_id}', [DataKelasController::class, 'tagihanSiswa'])->name('tagihan-siswa-detail');
@@ -63,5 +66,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/siswa/data-tagihan', [SiswasController::class, 'tagihanSiswa'])->name('siswa.tagihan.tagihan');
 
     Route::get('/siswa/riwayat-pembayaran', [SiswasController::class, 'riwayatPembayaran'])->name('siswa.riwayatPembayaran');
-    Route::post('/siswa/tagihan/save', [SiswasController::class, 'saveTagihan'])->name('tagihan.siswa.save');
+
+    Route::post('/siswa/tagihan/save', [SiswasController::class, 'saveTagihan'])->name('tagihan.siswas.save');
+
+
 });

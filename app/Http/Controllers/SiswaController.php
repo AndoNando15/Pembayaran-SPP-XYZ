@@ -174,6 +174,7 @@ class SiswaController extends Controller
     }
 
 
+
     public function approve(Request $request)
     {
         // Get the logged-in user directly using Auth::user()
@@ -198,6 +199,8 @@ class SiswaController extends Controller
 
     public function saveTagihan(Request $request)
     {
+
+        // dd($request->all()); // This will display all the data received from the form
         // Mendapatkan user yang sedang login
         $user = Auth::user();
 
@@ -212,8 +215,9 @@ class SiswaController extends Controller
             'nominal' => 'required|numeric',
             'keterangan' => 'nullable|string',
             'terdaftar' => 'required|date',
-            'cash' => 'required|numeric',
-            'status' => 'required|numeric'
+            'cash' => 'required|string',
+            'status' => 'required|string',
+            'bukti_pembayaran' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048', // Validate the uploaded file
         ]);
 
         // Memformat tanggal ke format yang sesuai dengan MySQL (YYYY-MM-DD)
@@ -221,33 +225,36 @@ class SiswaController extends Controller
         $batas_waktu = Carbon::createFromFormat('d F Y', $request->batas_waktu)->format('Y-m-d');
         $terdaftar = Carbon::createFromFormat('d F Y', $request->terdaftar)->format('Y-m-d');
 
+        // Menyimpan bukti pembayaran jika ada
+        $bukti_pembayaran_path = null;
+        if ($request->hasFile('bukti_pembayaran')) {
+            $file = $request->file('bukti_pembayaran');
+            // Menyimpan file ke folder 'public/bukti_pembayaran' dan mendapatkan path-nya
+            $bukti_pembayaran_path = $file->store('bukti_pembayaran', 'public');
+        }
+
         // Membuat entri baru di tabel TagihanSiswa
         $tagihan = new TagihanSiswa();
         $tagihan->nisn_id = $request->nisn_id;
         $tagihan->nama_lengkap_id = $request->nama_lengkap_id;
         $tagihan->tagihan = $request->tagihan;
-        $tagihan->tanggal = $tanggal;  // Memasukkan tanggal yang sudah diformat
-        $tagihan->batas_waktu = $batas_waktu;  // Memasukkan batas waktu yang sudah diformat
+        $tagihan->tanggal = $tanggal;
+        $tagihan->batas_waktu = $batas_waktu;
         $tagihan->kelas = $request->kelas;
         $tagihan->nominal = $request->nominal;
         $tagihan->keterangan = $request->keterangan;
-        $tagihan->terdaftar = $terdaftar;  // Memasukkan terdaftar yang sudah diformat
+        $tagihan->terdaftar = $terdaftar;
         $tagihan->pembayaran = $request->pembayaran;
-        $tagihan->bukti_pembayaran = $request->bukti_pembayaran;
-        $tagihan->cash = $request->cash;  // Jumlah yang dimasukkan oleh user
-        $tagihan->status = $request->status;  // Jumlah yang dimasukkan oleh user
-
-        // Menyimpan nama user yang sedang login
-        $tagihan->user = $user->nama_lengkap;
+        $tagihan->bukti_pembayaran = $bukti_pembayaran_path; // Path file
+        $tagihan->cash = $request->cash;
+        $tagihan->status = $request->status;
+        $tagihan->user = $user->id;
 
         // Menyimpan data ke database
-        if ($tagihan->save()) {
-            // Mengarahkan kembali dengan pesan sukses dan data tagihan yang disimpan
-            return back()->with('success', 'Tagihan berhasil disimpan')->with('tagihan', $tagihan);
-        }
+        $tagihan->save();
 
-        // Jika ada masalah saat menyimpan
-        return back()->with('error', 'Gagal menyimpan tagihan');
+        // Mengarahkan kembali dengan pesan sukses dan data tagihan yang disimpan
+        return back()->with('success', 'Tagihan berhasil disimpan')->with('tagihan', $tagihan);
     }
 
 

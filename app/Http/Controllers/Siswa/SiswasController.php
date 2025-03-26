@@ -51,7 +51,7 @@ class SiswasController extends Controller
     public function saveTagihan(Request $request)
     {
 
-        // dd($request->all()); // This will display all the data received from the form
+        dd($request->all()); // This will display all the data received from the form
         // Mendapatkan user yang sedang login
         $user = Auth::user();
 
