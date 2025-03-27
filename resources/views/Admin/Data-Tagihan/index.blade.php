@@ -17,7 +17,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead class="bg-primary text-white text-center">
                         <tr class="text-center">
                             <th>NO</th>
@@ -35,7 +35,7 @@
                     </thead>
                     <tbody>
                         @foreach ($tagihans as $key => $tagihan)
-                            <tr>
+                            <tr class="text-center">
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $tagihan->tagihan }}</td>
                                 <td>{{ \Carbon\Carbon::parse($tagihan->tanggal)->format('Y-m-d') }}</td>

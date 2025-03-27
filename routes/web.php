@@ -45,6 +45,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data-kelas/{id}/tagihan-siswa', [DataKelasController::class, 'tagihanSiswa'])->name('data-kelas.tagihanSiswa');
     Route::get('/data-kelas/{id}/tagihan', [DataKelasController::class, 'showTagihanSiswa'])->name('data-kelas.tagihan');
     Route::post('/tagihan/approve', [DataKelasController::class, 'approve'])->name('approve.tagihan');
+    Route::get('data-pembayaran', [DataPembayaranController::class, 'index'])->name('data-pembayaran.index');
+    Route::get('data-kelas/tagihan/{id}', [DataPembayaranController::class, 'tagihanSiswa'])->name('data-kelas.tagihanSiswa');
 
     // Resource route untuk Admin (CRUD)
     Route::resource('data-admin', AdminController::class);

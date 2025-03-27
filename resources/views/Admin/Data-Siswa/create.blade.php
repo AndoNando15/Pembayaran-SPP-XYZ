@@ -33,9 +33,11 @@
                 </div>
 
                 <!-- Jenis Kelamin -->
+                <!-- Jenis Kelamin -->
                 <div class="form-group">
                     <label for="jenis_kelamin">Jenis Kelamin</label>
                     <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" required>
+                        <option value=""> Pilih Jenis Kelamin</option> <!-- Opsi default -->
                         <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki
                         </option>
                         <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan
@@ -68,13 +70,18 @@
                 <div class="form-group">
                     <label for="kelas">Kelas</label>
                     <select class="form-control" name="kelas" id="kelas" required>
+                        <option value=""> Pilih Kelas</option> <!-- Opsi default -->
                         @foreach ($kelas as $kelasItem)
-                            <option value="{{ $kelasItem->level }}"
-                                {{ old('kelas') == $kelasItem->level ? 'selected' : '' }}>
-                                {{ $kelasItem->level }}</option>
+                            @if ($kelasItem->kelas !== 'SEMUA KELAS')
+                                <option value="{{ $kelasItem->level }}"
+                                    {{ old('kelas') == $kelasItem->level ? 'selected' : '' }}>
+                                    {{ $kelasItem->level }}
+                                </option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
+
 
 
                 <!-- Email -->
@@ -105,6 +112,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Tambah Siswa</button>
+                <a href="{{ route('data-siswa.index') }}" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
     </div>

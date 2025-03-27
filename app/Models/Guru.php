@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Guru extends Model
 {
@@ -20,12 +21,14 @@ class Guru extends Model
         'nomor_telepon',
         'status',
         'tergabung',
-        'terakhir_di_perbarui'
+        'terakhir_di_perbarui',
+        'terdaftar', // Kolom 'terdaftar' harus tetap ada di sini
     ];
 
     // Define the date fields that should be cast to Carbon instances
-    protected $dates = [
-        'tergabung',
-        'terakhir_di_perbarui',
+    protected $casts = [
+        'terdaftar' => 'date', // Pastikan 'terdaftar' di-cast ke objek Carbon
+        'tergabung' => 'datetime',
+        'terakhir_di_perbarui' => 'datetime',
     ];
 }

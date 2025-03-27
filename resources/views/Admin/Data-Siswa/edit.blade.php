@@ -74,13 +74,17 @@
                     <label for="kelas">Kelas</label>
                     <select class="form-control" name="kelas" id="kelas" required>
                         @foreach ($kelas as $kelasItem)
-                            <option value="{{ $kelasItem->level }}"
-                                {{ old('kelas', $user->kelas) == $kelasItem->level ? 'selected' : '' }}>
-                                {{ $kelasItem->level }}
-                            </option>
+                            @if ($kelasItem->kelas !== 'SEMUA KELAS')
+                                <!-- Mengecualikan kelas dengan nama "SEMUA KELAS" -->
+                                <option value="{{ $kelasItem->level }}"
+                                    {{ old('kelas', $user->kelas) == $kelasItem->level ? 'selected' : '' }}>
+                                    {{ $kelasItem->level }}
+                                </option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
+
 
                 <!-- Email -->
                 <div class="form-group">
@@ -110,6 +114,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                <a href="{{ route('data-siswa.index') }}" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
     </div>

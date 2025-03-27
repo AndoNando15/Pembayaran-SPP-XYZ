@@ -76,4 +76,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(TagihanSiswa::class, 'user_id');
     }
+
+
 }

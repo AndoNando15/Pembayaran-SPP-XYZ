@@ -45,18 +45,19 @@
 
 
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead class="bg-primary text-white text-center">
                         <tr class="text-center">
-                            <th>NO</th>
-                            <th>TAGIHAN</th>
-                            <th>SISWA</th>
-                            <th>NISN</th>
-                            <th>NOMINAL</th>
-                            <th>USER</th>
-                            <th>BUKTI PEMBAYARAN</th>
-                            <th>TERDAFTAR</th>
-                            <th>AKSI</th>
+                            <th>No</th>
+                            <th>Nama Siswa</th>
+                            <th>Tagihan</th>
+                            <th>Tanggal</th>
+                            <th>Batas Waktu</th>
+                            <th>Kelas</th>
+                            <th>Nominal</th>
+                            <th>Keterangan</th>
+                            <th>Terdaftar</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

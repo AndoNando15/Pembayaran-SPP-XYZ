@@ -17,7 +17,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead class="bg-primary text-white text-center">
                         <tr class="text-center">
                             <th>NO</th>
@@ -32,27 +32,31 @@
                     </thead>
                     <tbody>
                         @foreach ($kelas as $k)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $k->kelas }}</td>
-                                <td>{{ $k->level }}</td>
-                                <td>{{ $k->waliKelas->nama_guru }}</td>
+                            @if ($k->kelas != 'SEMUA KELAS')
+                                <!-- Cek jika kelas bukan "SEMUA KELAS" -->
+                                <tr class="text-center">
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $k->kelas }}</td>
+                                    <td>{{ $k->level }}</td>
+                                    <td>{{ $k->waliKelas->nama_guru }}</td>
 
-                                {{-- <td>{{ $k->jatuh_tempo ? $k->jatuh_tempo->format('Y-m-d') : 'Tidak Ada' }}</td> --}}
-                                <td>
-                                    <a href="{{ route('data-kelas.tagihan', ['id' => $k->id]) }}"
-                                        class="btn btn-primary btn-sm">LIHAT TAGIHAN</a>
-                                </td>
+                                    <td>
+                                        <a href="{{ route('data-kelas.tagihan', ['id' => $k->id]) }}"
+                                            class="btn btn-warning btn-sm">LIHAT TAGIHAN</a>
+                                    </td>
 
-                                <td>{{ $k->updated_at->format('Y-m-d H:i:s') }}</td>
-                                <td>
-                                    <a href="{{ route('data-kelas.edit', $k->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"
-                                        data-id="{{ $k->id }}" data-name="{{ $k->kelas }}">Delete</button>
-                                </td>
-                            </tr>
+                                    <td>{{ $k->updated_at->format('Y-m-d H:i:s') }}</td>
+                                    <td>
+                                        <a href="{{ route('data-kelas.edit', $k->id) }}"
+                                            class="btn btn-warning btn-sm">Edit</a>
+                                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"
+                                            data-id="{{ $k->id }}" data-name="{{ $k->kelas }}">Delete</button>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
+
                 </table>
             </div>
         </div>

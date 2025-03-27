@@ -17,25 +17,46 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead class="bg-primary text-white text-center">
                         <tr class="text-center">
                             <th>NO</th>
+                            <th>PROFILE</th>
+                            <th>NISN</th>
+                            <th>NAMA LENGKAP</th>
+                            <th>JENIS KELAMIN</th>
+                            <th>TEMPAT LAHIR</th>
+                            <th>TANGGAL LAHIR</th>
+                            <th>ALAMAT</th>
                             <th>KELAS</th>
                             <th>EMAIL</th>
+                            {{-- <th>PASSWORD</th> --}}
                             <th>NO TELEPON</th>
                             <th>TAGIHAN</th>
                             <th>TERDAFTAR</th>
                             <th>TERAKHIR DI EDIT</th>
                             <th>AKSI</th>
+
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($users as $user)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td><img src="{{ asset('storage/foto_profile_siswa/' . $user->foto_profile) }}"
+                                        alt="Profile" width="100">
+                                </td>
+                                <td>{{ $user->nisn }}</td>
+                                <td>{{ $user->nama_lengkap }}</td>
+                                <td>{{ $user->jenis_kelamin }}</td>
+                                <td>{{ $user->tempat_lahir }}</td>
+                                <td>{{ $user->tanggal_lahir }}</td>
+                                <td>{{ $user->alamat }}</td>
                                 <td>{{ $user->kelas }}</td>
+
+                                <!-- Show class name and level -->
                                 <td>{{ $user->email }}</td>
+                                {{-- <td>{{ $user->password }}</td> --}}
                                 <td>{{ $user->no_telepon }}</td>
                                 <td>{{ $user->jatuh_tempo }}</td>
                                 <td>{{ $user->terdaftar }}</td>

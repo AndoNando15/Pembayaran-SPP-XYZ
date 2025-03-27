@@ -30,11 +30,18 @@ class Tagihan extends Model
         return $this->belongsTo(Kelas::class, 'kelas', 'id');  // Pastikan 'kelas' adalah foreign key yang benar
     }
 
+
+
     // Di model Tagihan
+    // In Tagihan model
+    // In Tagihan model
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id'); // Gantilah dengan nama kolom yang benar, jika perlu
+        return $this->belongsTo(User::class, 'user_id'); // Menunjukkan bahwa tagihan memiliki relasi ke user
     }
+
+
+
 
     public function tagihanSiswa()
     {

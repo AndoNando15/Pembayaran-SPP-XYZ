@@ -81,7 +81,8 @@
                     <textarea class="form-control" name="keterangan" id="keterangan" rows="3">{{ old('keterangan') }}</textarea>
                 </div>
 
-                <button type="submit" class="btn btn-success">Tambah Tagihan</button>
+                <button type="submit" class="btn btn-primary">Tambah Tagihan</button>
+                <a href="{{ route('data-tagihan.index') }}" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
     </div>

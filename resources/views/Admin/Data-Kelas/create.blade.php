@@ -12,7 +12,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h4 class="m-0 font-weight-bold text-primary">Tambah Kelas</h4>
-            <a href="{{ route('data-kelas.index') }}" class="btn btn-secondary">Kembali</a>
+
         </div>
 
         <div class="card-body">
@@ -57,6 +57,7 @@
 
                 <!-- Submit Button -->
                 <button type="submit" class="btn btn-primary">Tambah Kelas</button>
+                <a href="{{ route('data-kelas.index') }}" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
     </div>

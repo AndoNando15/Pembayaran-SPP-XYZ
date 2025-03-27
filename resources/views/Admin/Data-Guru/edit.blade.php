@@ -5,8 +5,8 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h4 class="m-0 font-weight-bold text-primary">Edit Guru</h4>
-            <a href="{{ route('data-guru.index') }}" class="btn btn-secondary">Kembali</a>
+            <h4 class="m-0 font-weight-bold text-primary">Edit Data Guru ( WALI KELAS )</h4>
+
         </div>
 
         <div class="card-body">
@@ -68,13 +68,16 @@
                 <div class="form-group">
                     <label for="terdaftar">Tanggal Terdaftar</label>
                     <input type="date" class="form-control" id="terdaftar" name="terdaftar"
-                        value="{{ old('terdaftar', $guru->terdaftar ? $guru->terdaftar->format('Y-m-d') : \Carbon\Carbon::now()->format('Y-m-d')) }}"
+                        value="{{ old('terdaftar', $guru->terdaftar ? $guru->terdaftar->toDateString() : \Carbon\Carbon::now()->toDateString()) }}"
                         required>
+
                 </div>
+
 
 
                 <!-- Submit Button -->
                 <button type="submit" class="btn btn-primary">Update Guru</button>
+                <a href="{{ route('data-guru.index') }}" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
     </div>

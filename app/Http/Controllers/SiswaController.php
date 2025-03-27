@@ -91,6 +91,8 @@ class SiswaController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        // dd($request->all());
         // Validasi input
         $validated = $request->validate([
             'foto_profile' => 'nullable|image|mimes:jpg,png,jpeg',

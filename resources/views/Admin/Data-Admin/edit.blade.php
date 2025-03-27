@@ -76,6 +76,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Update Admin</button>
+                    <a href="{{ route('data-admin.index') }}" class="btn btn-secondary">Kembali</a>
                 </div>
             </form>
         </div>

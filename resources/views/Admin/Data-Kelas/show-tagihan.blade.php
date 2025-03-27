@@ -17,24 +17,24 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead class="bg-primary text-white text-center">
                         <tr>
                             <th>NO</th>
                             <th>NISN</th>
                             <th>NAMA SISWA</th>
-                            <th>TAGIHAN</th>
+                            {{-- <th>TAGIHAN</th> --}}
                             <th>TAGIHAN SISWA</th>
                             {{-- <th>TERAKHIR DI PERBARUI</th> --}}
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($siswa as $s)
-                            <tr>
+                            <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $s->nisn }}</td>
                                 <td>{{ $s->nama_lengkap }}</td>
-                                <td>{{ $s->jatuh_tempo }}</td>
+                                {{-- <td>{{ $s->jatuh_tempo }}</td> --}}
                                 <td>
                                     <a href="{{ route('data-kelas.tagihanSiswa', $s->id) }}"
                                         class="btn btn-warning btn-sm">Lihat

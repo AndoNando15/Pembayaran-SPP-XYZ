@@ -20,7 +20,7 @@
                 <!-- Left side: Data Siswa -->
                 <div class="col-md-4 mb-4">
                     <h5 class="font-weight-bold">Data Siswa</h5>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-striped table-striped">
                         <tr>
                             <td><strong>NISN</strong></td>
                             <td>{{ $tagihanSiswara->nisn }}</td>
@@ -53,8 +53,8 @@
                 <div class="col-md-8 mb-4">
                     <h5 class="font-weight-bold">Data Tagihan</h5>
                     <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
+                        <table class="table table-bordered table-striped ">
+                            <thead class="bg-primary text-white text-center">
                                 <tr>
                                     <th>No</th>
                                     <th>Tagihan</th>
@@ -128,8 +128,8 @@
             <div class="mb-4">
                 <h5 class="font-weight-bold">Tagihan Pending</h5>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
+                    <table class="table table-bordered table-striped">
+                        <thead class="bg-primary text-white text-center">
                             <tr>
                                 <th>No</th>
                                 <th>NISN</th>
@@ -147,7 +147,7 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="bg-primary text-white text-center">
                             @foreach ($pendingTagihan as $tagihan)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -254,7 +254,7 @@
             <div class="mb-4">
                 <h5 class="font-weight-bold">Riwayat Pembayaran</h5>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -321,7 +321,7 @@
                     </button>
                 </div>
                 <div class="modal-body text-center">
-                    <img id="buktiImage" src="" class="img-fluid" alt="Bukti Pembayaran">
+                    <img id="buktiImage" src="" class="img-fluid" alt="Pembayaran Cash">
                 </div>
             </div>
         </div>
@@ -352,54 +352,74 @@
                         <form action="{{ route('tagihan.siswa.save') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <!-- Input untuk NISN dengan readonly -->
-                            <label for="nisn_id"><strong>NISN:</strong></label>
-                            <input type="text" class="form-control" name="nisn_id" id="nisn_id"
-                                value="{{ $tagihanSiswara->nisn }}" readonly>
+                            <div class="form-group">
+                                <label for="nisn_id"><strong>NISN:</strong></label>
+                                <input type="text" class="form-control" name="nisn_id" id="nisn_id"
+                                    value="{{ $tagihanSiswara->nisn }}" readonly>
+                            </div>
 
                             <!-- Input untuk Nama Lengkap dengan readonly -->
-                            <label for="nama_lengkap_id"><strong>Nama Lengkap:</strong></label>
-                            <input type="text" class="form-control" name="nama_lengkap_id" id="nama_lengkap_id"
-                                value="{{ $tagihanSiswara->nama_lengkap }}" readonly>
+                            <div class="form-group">
+                                <label for="nama_lengkap_id"><strong>Nama Lengkap:</strong></label>
+                                <input type="text" class="form-control" name="nama_lengkap_id" id="nama_lengkap_id"
+                                    value="{{ $tagihanSiswara->nama_lengkap }}" readonly>
+                            </div>
 
                             <!-- Input untuk Tagihan dengan readonly -->
-                            <label for="tagihan"><strong>Tagihan:</strong></label>
-                            <input type="text" class="form-control" name="tagihan" id="tagihan" value=""
-                                readonly>
+                            <div class="form-group">
+                                <label for="tagihan"><strong>Tagihan:</strong></label>
+                                <input type="text" class="form-control" name="tagihan" id="tagihan" value=""
+                                    readonly>
+                            </div>
 
                             <!-- Input untuk Tanggal dengan readonly -->
-                            <label for="tanggal"><strong>Tanggal:</strong></label>
-                            <input type="text" class="form-control" name="tanggal" id="tanggal" value=""
-                                readonly>
+                            <div class="form-group">
+                                <label for="tanggal"><strong>Tanggal:</strong></label>
+                                <input type="text" class="form-control" name="tanggal" id="tanggal" value=""
+                                    readonly>
+                            </div>
 
                             <!-- Input untuk Batas Waktu dengan readonly -->
-                            <label for="batas_waktu"><strong>Batas Waktu:</strong></label>
-                            <input type="text" class="form-control" name="batas_waktu" id="batas_waktu"
-                                value="" readonly>
+                            <div class="form-group">
+                                <label for="batas_waktu"><strong>Batas Waktu:</strong></label>
+                                <input type="text" class="form-control" name="batas_waktu" id="batas_waktu"
+                                    value="" readonly>
+                            </div>
 
                             <!-- Input untuk Kelas dengan readonly -->
-                            <label for="kelas"><strong>Kelas:</strong></label>
-                            <input type="text" class="form-control" name="kelas" id="kelas" value=""
-                                readonly>
+                            <div class="form-group">
+                                <label for="kelas"><strong>Kelas:</strong></label>
+                                <input type="text" class="form-control" name="kelas" id="kelas" value=""
+                                    readonly>
+                            </div>
 
                             <!-- Input untuk Nominal dengan readonly -->
-                            <label for="nominal"><strong>Nominal:</strong></label>
-                            <input type="text" class="form-control" name="nominal" id="nominal" value=""
-                                readonly>
+                            <div class="form-group">
+                                <label for="nominal"><strong>Nominal:</strong></label>
+                                <input type="text" class="form-control" name="nominal" id="nominal" value=""
+                                    readonly>
+                            </div>
 
                             <!-- Input untuk Keterangan dengan readonly -->
-                            <label for="keterangan"><strong>Keterangan:</strong></label>
-                            <input type="text" class="form-control" name="keterangan" id="keterangan" value=""
-                                readonly>
+                            <div class="form-group">
+                                <label for="keterangan"><strong>Keterangan:</strong></label>
+                                <input type="text" class="form-control" name="keterangan" id="keterangan"
+                                    value="" readonly>
+                            </div>
 
                             <!-- Input untuk Terdaftar dengan readonly -->
-                            <label for="terdaftar"><strong>Terdaftar:</strong></label>
-                            <input type="text" class="form-control" name="terdaftar" id="terdaftar" value=""
-                                readonly>
+                            <div class="form-group">
+                                <label for="terdaftar"><strong>Terdaftar:</strong></label>
+                                <input type="text" class="form-control" name="terdaftar" id="terdaftar"
+                                    value="" readonly>
+                            </div>
 
                             <!-- Pembayaran (Transfer) diset otomatis -->
-                            <label for="pembayaran"><strong>Pembayaran:</strong></label>
-                            <input type="text" class="form-control" name="pembayaran" id="pembayaran"
-                                value="Transfer" readonly>
+                            <div class="form-group">
+                                <label for="pembayaran"><strong>Pembayaran:</strong></label>
+                                <input type="text" class="form-control" name="pembayaran" id="pembayaran"
+                                    value="Cash" readonly>
+                            </div>
 
                             <!-- File input untuk bukti_pembayaran -->
                             {{-- <label for="bukti_pembayaran"><strong>Bukti Pembayaran:</strong></label> --}}
@@ -407,21 +427,28 @@
                                 accept="image/*,application/pdf">
 
                             <!-- Input untuk nominal Tunai -->
-                            <label for="paymentAmount"><strong>Nominal Pembayaran (Tunai):</strong></label>
-                            <input type="number" class="form-control" name="cash" id="paymentAmount"
-                                placeholder="Masukkan nominal">
+                            <div class="form-group">
+                                <label for="paymentAmount"><strong>Nominal Pembayaran (Tunai):</strong></label>
+                                <input type="number" class="form-control" name="cash" id="paymentAmount"
+                                    placeholder="Masukkan nominal">
+                            </div>
 
                             <!-- Status diset otomatis -->
                             <input type="hidden" class="form-control" name="status" value="disetujui" readonly>
 
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <!-- Button Simpan dan Close -->
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
                         </form>
+
 
 
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
                 </div>
             </div>
         </div>

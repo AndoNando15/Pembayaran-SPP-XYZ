@@ -18,8 +18,8 @@
 
             {{-- <h5 class="font-weight-bold">Data Tagihan</h5> --}}
             <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
+                <table class="table table-bordered table-striped">
+                    <thead class="bg-primary text-white text-center">
                         <tr>
                             <th>No</th>
                             <th>Tagihan</th>
@@ -144,75 +144,76 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
 
-    @endsection
+@endsection
 
-    @section('scripts')
+@section('scripts')
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Iterasi untuk tabel tagihan
-                let rows = document.querySelectorAll('table tbody tr');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Iterasi untuk tabel tagihan
+            let rows = document.querySelectorAll('table tbody tr');
 
-                rows.forEach(function(row) {
-                    // Ambil data keterangan dan terdaftar dari baris
-                    let keterangan = row.querySelector('td:nth-child(7)').textContent.trim();
-                    let terdaftar = row.querySelector('td:nth-child(8)').textContent.trim();
+            rows.forEach(function(row) {
+                // Ambil data keterangan dan terdaftar dari baris
+                let keterangan = row.querySelector('td:nth-child(7)').textContent.trim();
+                let terdaftar = row.querySelector('td:nth-child(8)').textContent.trim();
 
-                    // Cek apakah keterangan dan terdaftar sama dengan yang ada di riwayat pembayaran
-                    @foreach ($tagihanSiswas as $tagihanSiswa)
-                        if (keterangan === '{{ addslashes($tagihanSiswa->keterangan) }}' &&
-                            terdaftar ===
-                            '{{ \Carbon\Carbon::parse($tagihanSiswa->terdaftar)->format('d F Y') }}') {
-                            row.style.display = 'none'; // Menyembunyikan baris jika data sama
-                        }
-                    @endforeach
-                });
+                // Cek apakah keterangan dan terdaftar sama dengan yang ada di riwayat pembayaran
+                @foreach ($tagihanSiswas as $tagihanSiswa)
+                    if (keterangan === '{{ addslashes($tagihanSiswa->keterangan) }}' &&
+                        terdaftar ===
+                        '{{ \Carbon\Carbon::parse($tagihanSiswa->terdaftar)->format('d F Y') }}') {
+                        row.style.display = 'none'; // Menyembunyikan baris jika data sama
+                    }
+                @endforeach
             });
-        </script>
+        });
+    </script>
 
-        <script>
-            // Fungsi untuk menampilkan detail modal
-            function showDetailModal(tagihan) {
-                console.log('Tagihan Data:', tagihan);
+    <script>
+        // Fungsi untuk menampilkan detail modal
+        function showDetailModal(tagihan) {
+            console.log('Tagihan Data:', tagihan);
 
-                // Menyisipkan data ke modal
-                document.getElementById('modalTagihan').innerText = tagihan.tagihan || 'No data available';
-                document.getElementById('modalTanggal').innerText = tagihan.tanggal || 'No data available';
-                document.getElementById('modalBatasWaktu').innerText = tagihan.batas_waktu || 'No data available';
-                document.getElementById('modalKelasTagihan').innerText = tagihan.kelas_tagihan || 'N/A';
-                document.getElementById('modalNominal').innerText = 'Rp. ' + new Intl.NumberFormat().format(tagihan.nominal ||
-                    0);
-                document.getElementById('modalKeterangan').innerText = tagihan.keterangan || 'No data available';
-                document.getElementById('modalTerdaftar').innerText = tagihan.terdaftar || 'No data available';
+            // Menyisipkan data ke modal
+            document.getElementById('modalTagihan').innerText = tagihan.tagihan || 'No data available';
+            document.getElementById('modalTanggal').innerText = tagihan.tanggal || 'No data available';
+            document.getElementById('modalBatasWaktu').innerText = tagihan.batas_waktu || 'No data available';
+            document.getElementById('modalKelasTagihan').innerText = tagihan.kelas_tagihan || 'N/A';
+            document.getElementById('modalNominal').innerText = 'Rp. ' + new Intl.NumberFormat().format(tagihan.nominal ||
+                0);
+            document.getElementById('modalKeterangan').innerText = tagihan.keterangan || 'No data available';
+            document.getElementById('modalTerdaftar').innerText = tagihan.terdaftar || 'No data available';
 
-                // Isi input form dengan data yang benar
-                // document.querySelector('[name="nisn_id"]').value = tagihan.nisn_id;
-                // document.querySelector('[name="nama_lengkap_id"]').value = tagihan.nama_lengkap_id;
-                document.querySelector('[name="tagihan"]').value = tagihan.tagihan;
-                document.querySelector('[name="tanggal"]').value = tagihan.tanggal;
-                document.querySelector('[name="batas_waktu"]').value = tagihan.batas_waktu;
-                document.querySelector('[name="kelas"]').value = tagihan.kelas_tagihan;
-                document.querySelector('[name="nominal"]').value = tagihan.nominal;
-                document.querySelector('[name="keterangan"]').value = tagihan.keterangan;
-                document.querySelector('[name="terdaftar"]').value = tagihan.terdaftar;
-                // document.querySelector('[name="cash"]').value = tagihan.paymentAmount || ''; // Cash field
-            }
-        </script>
-        <script>
-            function showBukti(imageUrl) {
-                // Set the source of the image to the URL provided
-                document.getElementById('buktiImage').src = imageUrl;
+            // Isi input form dengan data yang benar
+            // document.querySelector('[name="nisn_id"]').value = tagihan.nisn_id;
+            // document.querySelector('[name="nama_lengkap_id"]').value = tagihan.nama_lengkap_id;
+            document.querySelector('[name="tagihan"]').value = tagihan.tagihan;
+            document.querySelector('[name="tanggal"]').value = tagihan.tanggal;
+            document.querySelector('[name="batas_waktu"]').value = tagihan.batas_waktu;
+            document.querySelector('[name="kelas"]').value = tagihan.kelas_tagihan;
+            document.querySelector('[name="nominal"]').value = tagihan.nominal;
+            document.querySelector('[name="keterangan"]').value = tagihan.keterangan;
+            document.querySelector('[name="terdaftar"]').value = tagihan.terdaftar;
+            // document.querySelector('[name="cash"]').value = tagihan.paymentAmount || ''; // Cash field
+        }
+    </script>
+    <script>
+        function showBukti(imageUrl) {
+            // Set the source of the image to the URL provided
+            document.getElementById('buktiImage').src = imageUrl;
 
-                // Show the modal
-                $('#buktiModal').modal('show');
-            }
-        </script>
+            // Show the modal
+            $('#buktiModal').modal('show');
+        }
+    </script>
 
 
-    @endsection
+
 
     <!-- Bootstrap JS dan jQuery -->
     {{-- <script src="{{ asset('/assets/vendor/jquery/jquery.min.js') }}"></script>
@@ -220,3 +221,4 @@
 
     <!-- Fungsi JavaScript custom -->
     @yield('scripts')
+@endsection

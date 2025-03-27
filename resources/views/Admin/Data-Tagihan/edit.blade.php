@@ -96,7 +96,8 @@
                     <textarea class="form-control" name="keterangan" id="keterangan" rows="3">{{ old('keterangan', $tagihan->keterangan) }}</textarea>
                 </div>
 
-                <button type="submit" class="btn btn-success">Update Tagihan</button>
+                <button type="submit" class="btn btn-primary">Update Tagihan</button>
+                <a href="{{ route('data-tagihan.index') }}" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
     </div>

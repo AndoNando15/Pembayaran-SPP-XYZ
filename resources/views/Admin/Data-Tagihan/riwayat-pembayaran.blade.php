@@ -22,7 +22,8 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-bordered table-hover" id="paymentTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped table-hover" id="paymentTable" width="100%"
+                    cellspacing="0">
                     <thead class="bg-primary text-white text-center">
                         <tr>
                             <th>No</th>
@@ -45,7 +46,7 @@
                     </thead>
                     <tbody>
                         @forelse ($tagihanSiswas as $tagihan)
-                            <tr>
+                            <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $tagihan->user }}</td>
                                 <td>{{ $tagihan->nisn_id }}</td>
@@ -99,11 +100,7 @@
     </div>
 
     <!-- Tambahkan style agar modal berada di atas -->
-    <style>
-        .modal.modal-top .modal-dialog {
-            margin-top: 5vh;
-        }
-    </style>
+
 
     <!-- jQuery and Bootstrap JS -->
     <script src="{{ asset('/assets/vendor/jquery/jquery.min.js') }}"></script>
