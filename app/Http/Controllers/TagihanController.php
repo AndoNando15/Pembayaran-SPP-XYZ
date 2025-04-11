@@ -156,7 +156,7 @@ class TagihanController extends Controller
 
     public function riwayatPembayaran()
     {
-        $tagihanSiswas = TagihanSiswa::all();
+        $tagihanSiswas = TagihanSiswa::with('user')->get();
         return view('admin.data-tagihan.riwayat-pembayaran', compact('tagihanSiswas'));
     }
 }

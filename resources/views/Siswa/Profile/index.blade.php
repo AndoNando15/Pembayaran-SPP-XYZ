@@ -1,19 +1,19 @@
-@extends('admin.layouts.base')
-@section('title', 'Edit Siswa')
+@extends('siswa.layouts.base')
+@section('title', 'Edit Profile')
 
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h4 class="m-0 font-weight-bold text-primary">Edit Siswa</h4>
+            <h4 class="m-0 font-weight-bold text-primary">Edit Profile</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('data-siswa.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('siswa.updateProfile', $user->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
-                <!-- Foto Profile -->
+                <!-- Profile Picture -->
                 <div class="form-group">
-                    <label for="foto_profile">Foto Profile</label>
+                    <label for="foto_profile">Profile Picture</label>
                     <input type="file" class="form-control" name="foto_profile" id="foto_profile">
                     @if ($user->foto_profile)
                         <img src="{{ asset('storage/foto_profile_siswa/' . $user->foto_profile) }}" alt="Profile Picture"
@@ -24,67 +24,63 @@
                 <!-- NISN -->
                 <div class="form-group">
                     <label for="nisn">NISN</label>
-                    <input type="number" class="form-control" name="nisn" id="nisn"
+                    <input type="text" class="form-control" name="nisn" id="nisn"
                         value="{{ old('nisn', $user->nisn) }}" required>
                 </div>
 
-                <!-- Nama Lengkap -->
+                <!-- Full Name -->
                 <div class="form-group">
-                    <label for="nama_lengkap">Nama Lengkap</label>
+                    <label for="nama_lengkap">Full Name</label>
                     <input type="text" class="form-control" name="nama_lengkap" id="nama_lengkap"
                         value="{{ old('nama_lengkap', $user->nama_lengkap) }}" required>
                 </div>
 
-                <!-- Jenis Kelamin -->
+                <!-- Gender -->
                 <div class="form-group">
-                    <label for="jenis_kelamin">Jenis Kelamin</label>
+                    <label for="jenis_kelamin">Gender</label>
                     <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" required>
                         <option value="Laki-laki"
-                            {{ old('jenis_kelamin', $user->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}>Laki-laki
-                        </option>
+                            {{ old('jenis_kelamin', $user->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}>Male</option>
                         <option value="Perempuan"
-                            {{ old('jenis_kelamin', $user->jenis_kelamin) == 'Perempuan' ? 'selected' : '' }}>Perempuan
+                            {{ old('jenis_kelamin', $user->jenis_kelamin) == 'Perempuan' ? 'selected' : '' }}>Female
                         </option>
                     </select>
                 </div>
 
-                <!-- Tempat Lahir -->
+                <!-- Place of Birth -->
                 <div class="form-group">
-                    <label for="tempat_lahir">Tempat Lahir</label>
+                    <label for="tempat_lahir">Place of Birth</label>
                     <input type="text" class="form-control" name="tempat_lahir" id="tempat_lahir"
                         value="{{ old('tempat_lahir', $user->tempat_lahir) }}" required>
                 </div>
 
-                <!-- Tanggal Lahir -->
+                <!-- Date of Birth -->
                 <div class="form-group">
-                    <label for="tanggal_lahir">Tanggal Lahir</label>
+                    <label for="tanggal_lahir">Date of Birth</label>
                     <input type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir"
                         value="{{ old('tanggal_lahir', $user->tanggal_lahir) }}" required>
                 </div>
 
-                <!-- Alamat -->
+                <!-- Address -->
                 <div class="form-group">
-                    <label for="alamat">Alamat</label>
+                    <label for="alamat">Address</label>
                     <input type="text" class="form-control" name="alamat" id="alamat"
                         value="{{ old('alamat', $user->alamat) }}" required>
                 </div>
 
-                <!-- Kelas -->
+                <!-- Class -->
                 <div class="form-group">
-                    <label for="kelas">Kelas</label>
+                    <label for="kelas">Class</label>
                     <select class="form-control" name="kelas" id="kelas" required>
                         @foreach ($kelas as $kelasItem)
                             @if ($kelasItem->kelas !== 'SEMUA KELAS')
-                                <!-- Mengecualikan kelas dengan nama "SEMUA KELAS" -->
                                 <option value="{{ $kelasItem->level }}"
                                     {{ old('kelas', $user->kelas) == $kelasItem->level ? 'selected' : '' }}>
-                                    {{ $kelasItem->level }}
-                                </option>
+                                    {{ $kelasItem->level }}</option>
                             @endif
                         @endforeach
                     </select>
                 </div>
-
 
                 <!-- Email -->
                 <div class="form-group">
@@ -93,10 +89,10 @@
                         value="{{ old('email', $user->email) }}" required>
                 </div>
 
-                <!-- No Telepon -->
+                <!-- Phone Number -->
                 <div class="form-group">
-                    <label for="no_telepon">No Telepon</label>
-                    <input type="number" class="form-control" name="no_telepon" id="no_telepon"
+                    <label for="no_telepon">Phone Number</label>
+                    <input type="text" class="form-control" name="no_telepon" id="no_telepon"
                         value="{{ old('no_telepon', $user->no_telepon) }}" required>
                 </div>
 
@@ -104,7 +100,7 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" name="password" id="password">
-                    <small class="text-muted">Kosongkan jika tidak ingin mengganti password</small>
+                    <small class="text-muted">Leave empty if you don't want to change the password</small>
                 </div>
 
                 <!-- Confirm Password -->
@@ -113,8 +109,8 @@
                     <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                <a href="{{ route('data-siswa.index') }}" class="btn btn-secondary">Kembali</a>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{{ route('siswa.profile') }}" class="btn btn-secondary">Back</a>
             </form>
         </div>
     </div>

@@ -40,8 +40,8 @@
                             <th>Bukti Pembayaran</th>
                             <th>Cash</th>
                             <th>Status</th>
-                            <th>Created At</th>
-                            <th>Aksi</th>
+                            <th>Tanggal Bayar</th>
+                            {{-- <th>Aksi</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -73,10 +73,10 @@
                                     </span>
                                 </td>
 
-                                <td>{{ \Carbon\Carbon::parse($tagihan->created_at)->format('d F Y H:i') }}</td>
-                                <td>
-                                    <a href="#" class="btn btn-info btn-sm" onclick="printTable()">Print</a>
-                                </td>
+                                <td>{{ \Carbon\Carbon::parse($tagihan->updated_at)->format('d F Y H:i') }}</td>
+                                {{-- <td>
+                                    <a href="#" class="btn btn-info btn-sm">Print</a>
+                                </td> --}}
                             </tr>
                         @empty
                             <tr>
@@ -100,15 +100,18 @@
                     </button>
                 </div>
                 <div class="modal-body text-center">
+                    <!-- Displaying the image here -->
                     <img id="buktiImage" src="" class="img-fluid" alt="Bukti Pembayaran">
                 </div>
             </div>
         </div>
     </div>
 
+
 @endsection
 
 @section('scripts')
+
 
     <script>
         // Function to display the proof of payment in the modal
@@ -117,39 +120,29 @@
             $('#buktiModal').modal('show');
         }
 
-        // Function to handle print functionality
-        function printTable() {
-            var printContent = document.getElementById('paymentTable').outerHTML;
-            var printWindow = window.open('', '_blank', 'width=800, height=600');
-            printWindow.document.write('<html><head><title>Report: Riwayat Pembayaran</title>');
-            printWindow.document.write('<style>');
-            printWindow.document.write('@media print {');
-            printWindow.document.write('body { font-family: Arial, sans-serif; }');
-            printWindow.document.write('table { width: 100%; border-collapse: collapse; }');
-            printWindow.document.write('table, th, td { border: 1px solid black; }');
-            printWindow.document.write('th, td { padding: 8px; text-align: center; }');
-            printWindow.document.write('h1 { text-align: center; }');
-            printWindow.document.write('}'); // End of media print
-            printWindow.document.write('</style>');
-            printWindow.document.write('</head><body>');
-            printWindow.document.write('<h1>Laporan Riwayat Pembayaran</h1>');
-            printWindow.document.write('<p><strong>Periode:</strong> ' + new Date().toLocaleDateString() +
-            '</p>'); // Current date
-            printWindow.document.write(printContent);
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.print();
-        }
-
         $(document).ready(function() {
             // Initialize DataTable
             var table = $('#paymentTable').DataTable();
 
             // Apply search on 'Nama Lengkap' column (index 3)
             $('#searchName').on('keyup change', function() {
+                // Search only in the 'Nama Lengkap' column (index 3)
                 table.column(2).search(this.value).draw();
             });
         });
     </script>
 
 @endsection
+
+<!-- Bootstrap JS and jQuery -->
+{{-- <script src="{{ asset('/assets/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
+<script>
+    function showBukti(imageUrl) {
+        // Set the source of the image to the URL provided
+        document.getElementById('buktiImage').src = imageUrl;
+
+        // Show the modal
+        $('#buktiModal').modal('show');
+    }
+</script>

@@ -16,7 +16,7 @@
         </div>
 
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" style="max-height: 60vh; overflow-y: auto;">
                 <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead class="bg-primary text-white text-center">
                         <tr class="text-center">
@@ -88,18 +88,15 @@
 
 @section('scripts')
     <script>
-        // Set up the modal with the correct ID and name when the delete button is clicked
         $('#deleteModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var adminId = button.data('id'); // Extract the admin ID
-            var adminName = button.data('name'); // Extract the admin name
+            var button = $(event.relatedTarget);
+            var adminId = button.data('id');
+            var adminName = button.data('name');
 
-            // Update the modal's content
             var modal = $(this);
             modal.find('#adminName').text(adminName);
-            modal.find('#adminId').val(adminId); // Set the ID in the hidden input field
+            modal.find('#adminId').val(adminId);
 
-            // Update form action dynamically to include the correct admin ID
             var actionUrl = "{{ route('data-admin.destroy', ':id') }}".replace(':id', adminId);
             modal.find('#deleteForm').attr('action', actionUrl);
         });

@@ -37,7 +37,7 @@ class Tagihan extends Model
     // In Tagihan model
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id'); // Menunjukkan bahwa tagihan memiliki relasi ke user
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 

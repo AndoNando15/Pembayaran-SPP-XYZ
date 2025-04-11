@@ -2,6 +2,7 @@
 @section('title', 'Data Guru')
 
 @section('content')
+
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -15,7 +16,7 @@
         </div>
 
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" style="max-height: 60vh; overflow-y: auto;">
                 <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead class="bg-primary text-white text-center">
                         <tr class="text-center">
@@ -53,7 +54,6 @@
                                 <td>
                                     <a href="{{ route('data-guru.edit', $guru->id) }}"
                                         class="btn btn-warning btn-sm">Edit</a>
-                                    <!-- Trigger modal for delete -->
                                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"
                                         data-id="{{ $guru->id }}" data-name="{{ $guru->nama_guru }}">Delete</button>
                                 </td>
@@ -95,19 +95,17 @@
 
 @section('scripts')
     <script>
-        // Set up the modal with the correct ID and name when the delete button is clicked
         $('#deleteModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var guruId = button.data('id'); // Extract the guru ID
-            var guruName = button.data('name'); // Extract the guru name
+            var button = $(event.relatedTarget);
+            var guruId = button.data('id');
+            var guruName = button.data('name');
 
-            // Update the modal's content
             var modal = $(this);
             modal.find('#guruName').text(guruName);
-            modal.find('#guruId').val(guruId); // Set the ID in the hidden input field
+            modal.find('#guruId').val(guruId);
 
-            // Update the form action URL with the guruId
-            modal.find('#deleteForm').attr('action', '/data-guru/destroy/' + guruId);
+            var actionUrl = "{{ route('data-guru.destroy', ':id') }}".replace(':id', guruId);
+            modal.find('#deleteForm').attr('action', actionUrl);
         });
     </script>
 @endsection

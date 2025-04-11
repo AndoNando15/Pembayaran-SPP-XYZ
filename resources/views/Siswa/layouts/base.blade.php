@@ -95,16 +95,17 @@
                                     {{ Auth::check() ? Auth::user()->nama_lengkap : 'Guest' }}
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{ Auth::check() && Auth::user()->profile_petugas ? asset('storage/' . Auth::user()->profile_petugas) : asset('/assets/img/default-profile.png') }}">
+                                    src="{{ Auth::check() && Auth::user()->foto_profile ? asset('storage/' . Auth::user()->foto_profile) : asset('/assets/img/default-profile.png') }}">
                             </a>
 
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/siswa/profile">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
+
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings

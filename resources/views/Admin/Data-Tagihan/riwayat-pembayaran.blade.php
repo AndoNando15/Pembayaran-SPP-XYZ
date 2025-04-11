@@ -21,7 +21,7 @@
                     style="width: 300px;">
             </div>
 
-            <div class="table-responsive">
+            <div class="table-responsive" style="max-height: 60vh; overflow-y: auto;">
                 <table class="table table-bordered table-striped table-hover" id="paymentTable" width="100%"
                     cellspacing="0">
                     <thead class="bg-primary text-white text-center">
@@ -48,7 +48,7 @@
                         @forelse ($tagihanSiswas as $tagihan)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $tagihan->user }}</td>
+                                <td>{{ $tagihan->users ? $tagihan->users->nama_lengkap : 'No user' }}</td>
                                 <td>{{ $tagihan->nisn_id }}</td>
                                 <td>{{ $tagihan->nama_lengkap_id }}</td>
                                 <td>{{ $tagihan->tagihan }}</td>
@@ -99,9 +99,6 @@
         </div>
     </div>
 
-    <!-- Tambahkan style agar modal berada di atas -->
-
-
     <!-- jQuery and Bootstrap JS -->
     <script src="{{ asset('/assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -127,3 +124,86 @@
     </script>
 
 @endsection
+
+<!-- Add CSS for table styling -->
+<style>
+    #paymentTable th,
+    #paymentTable td {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    #paymentTable th {
+        text-align: center;
+    }
+
+    #paymentTable td {
+        vertical-align: middle;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* Menyesuaikan lebar kolom */
+    #paymentTable th:nth-child(1) {
+        width: 5%;
+    }
+
+    #paymentTable th:nth-child(2) {
+        width: 10%;
+    }
+
+    #paymentTable th:nth-child(3) {
+        width: 10%;
+    }
+
+    #paymentTable th:nth-child(4) {
+        width: 20%;
+    }
+
+    #paymentTable th:nth-child(5) {
+        width: 15%;
+    }
+
+    #paymentTable th:nth-child(6) {
+        width: 10%;
+    }
+
+    #paymentTable th:nth-child(7) {
+        width: 10%;
+    }
+
+    #paymentTable th:nth-child(8) {
+        width: 10%;
+    }
+
+    #paymentTable th:nth-child(9) {
+        width: 10%;
+    }
+
+    #paymentTable th:nth-child(10) {
+        width: 15%;
+    }
+
+    #paymentTable th:nth-child(11) {
+        width: 10%;
+    }
+
+    #paymentTable th:nth-child(12) {
+        width: 15%;
+    }
+
+    #paymentTable th:nth-child(13) {
+        width: 10%;
+    }
+
+    #paymentTable th:nth-child(14) {
+        width: 10%;
+    }
+
+    #paymentTable th:nth-child(15) {
+        width: 5%;
+    }
+</style>

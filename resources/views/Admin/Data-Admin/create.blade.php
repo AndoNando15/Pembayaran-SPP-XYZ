@@ -21,7 +21,7 @@
                 <!-- NUPTK -->
                 <div class="form-group">
                     <label for="nuptk">NUPTK</label>
-                    <input type="text" class="form-control" id="nuptk" name="nuptk" required>
+                    <input type="number" class="form-control" id="nuptk" name="nuptk" required>
                 </div>
 
                 <!-- Nama Lengkap -->

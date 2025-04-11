@@ -147,7 +147,7 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-primary text-white text-center">
+                        <tbody>
                             @foreach ($pendingTagihan as $tagihan)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -255,7 +255,7 @@
                 <h5 class="font-weight-bold">Riwayat Pembayaran</h5>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
-                        <thead>
+                        <thead class="bg-primary text-white text-center">
                             <tr>
                                 <th>No</th>
                                 <th>User</th>

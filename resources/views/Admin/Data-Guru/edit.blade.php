@@ -29,7 +29,7 @@
                 <!-- NUPTK -->
                 <div class="form-group">
                     <label for="nuptk">NUPTK</label>
-                    <input type="text" class="form-control" id="nuptk" name="nuptk"
+                    <input type="number" class="form-control" id="nuptk" name="nuptk"
                         value="{{ old('nuptk', $guru->nuptk) }}" required>
                 </div>
 
@@ -50,7 +50,7 @@
                 <!-- Nomor Telepon -->
                 <div class="form-group">
                     <label for="nomor_telepon">Nomor Telepon</label>
-                    <input type="text" class="form-control" id="nomor_telepon" name="nomor_telepon"
+                    <input type="number" class="form-control" id="nomor_telepon" name="nomor_telepon"
                         value="{{ old('nomor_telepon', $guru->nomor_telepon) }}" required>
                 </div>
 

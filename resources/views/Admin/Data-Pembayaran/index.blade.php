@@ -57,26 +57,26 @@
                             <th>Nominal</th>
                             <th>Keterangan</th>
                             <th>Terdaftar</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {{-- @foreach ($pembayarans as $key => $pembayaran)
+                    {{-- <tbody>
+                        @foreach ($tagihanSiswa as $key => $tagihan)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $pembayaran->tagihan }}</td>
-                                <td>{{ $pembayaran->siswa->name }}</td>
-                                <td>{{ $pembayaran->siswa->nisn }}</td>
-                                <td>Rp. {{ number_format($pembayaran->nominal, 0, ',', '.') }}</td>
-                                <td>{{ $pembayaran->user->name }}</td>
-                                <td>{{ $pembayaran->bukti_pembayaran }}</td>
-                                <td>{{ \Carbon\Carbon::parse($pembayaran->terdaftar)->format('d-m-Y') }}</td>
-                                <td>
-                                    <a href="#" class="btn btn-warning">PRINT</a>
-                                </td>
+                                <td>{{ $tagihan->user ? $tagihan->user->nama_lengkap : 'No User' }}</td>
+                                <!-- Check if 'user' exists -->
+                                <td>{{ $tagihan->tagihan }}</td>
+                                <td>{{ $tagihan->tanggal }}</td>
+                                <td>{{ $tagihan->batas_waktu }}</td>
+                                <td>{{ $tagihan->kelas }}</td>
+                                <td>{{ $tagihan->nominal }}</td>
+                                <td>{{ $tagihan->keterangan }}</td>
+
+                                <td>{{ \Carbon\Carbon::parse($tagihan->terdaftar)->format('d-m-Y') }}</td>
+
                             </tr>
-                        @endforeach --}}
-                    </tbody>
+                        @endforeach
+                    </tbody> --}}
                 </table>
             </div>
         </div>

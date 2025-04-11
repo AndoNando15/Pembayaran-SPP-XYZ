@@ -19,7 +19,7 @@
                 <!-- NISN -->
                 <div class="form-group">
                     <label for="nisn">NISN</label>
-                    <input type="text" class="form-control" name="nisn" id="nisn" value="{{ old('nisn') }}"
+                    <input type="number" class="form-control" name="nisn" id="nisn" value="{{ old('nisn') }}"
                         required>
                 </div>
 
@@ -94,7 +94,7 @@
                 <!-- No Telepon -->
                 <div class="form-group">
                     <label for="no_telepon">No Telepon</label>
-                    <input type="text" class="form-control" name="no_telepon" id="no_telepon"
+                    <input type="number" class="form-control" name="no_telepon" id="no_telepon"
                         value="{{ old('no_telepon') }}" required>
                 </div>
 

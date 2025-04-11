@@ -15,8 +15,6 @@
         </div>
 
         <div class="card-body">
-
-            {{-- <h5 class="font-weight-bold">Data Tagihan</h5> --}}
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="bg-primary text-white text-center">
@@ -61,33 +59,27 @@
                                     <td>
                                         <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#detailModal"
                                             onclick="showDetailModal({
-                                                    tagihan: '{{ addslashes($tagihan->tagihan) }}',
-                                                    tanggal: '{{ \Carbon\Carbon::parse($tagihan->tanggal)->format('d F Y') }}',
-                                                    batas_waktu: '{{ \Carbon\Carbon::parse($tagihan->batas_waktu)->format('d F Y') }}',
-                                                    kelas_tagihan: '{{ addslashes($tagihan->kelas ?? 'N/A') }}',
-                                                    nominal: {{ $tagihan->nominal }},
-                                                    keterangan: '{{ addslashes($tagihan->keterangan) }}',
-                                                    terdaftar: '{{ \Carbon\Carbon::parse($tagihan->terdaftar)->format('d F Y') }}',
-                                                    tagihanId: {{ $tagihan->id }},
-                                                    paymentAmount: {{ $tagihan->nominal }}
-                                                })">
+                                                tagihan: '{{ addslashes($tagihan->tagihan) }}',
+                                                tanggal: '{{ \Carbon\Carbon::parse($tagihan->tanggal)->format('d F Y') }}',
+                                                batas_waktu: '{{ \Carbon\Carbon::parse($tagihan->batas_waktu)->format('d F Y') }}',
+                                                kelas_tagihan: '{{ addslashes($tagihan->kelas ?? 'N/A') }}',
+                                                nominal: {{ $tagihan->nominal }} ,
+                                                keterangan: '{{ addslashes($tagihan->keterangan) }}',
+                                                terdaftar: '{{ \Carbon\Carbon::parse($tagihan->terdaftar)->format('d F Y') }}',
+                                                tagihanId: {{ $tagihan->id }}
+                                            })">
                                             Detail
                                         </button>
+
                                     </td>
                                 </tr>
                             @endif
                         @endforeach
                     </tbody>
-
-
                 </table>
-
             </div>
         </div>
 
-
-        <!-- Modal -->
-        <!-- Modal -->
         <!-- Modal -->
         <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -99,54 +91,69 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p><strong>Tagihan:</strong> <span id="modalTagihan"></span></p>
-                        <p><strong>Tanggal:</strong> <span id="modalTanggal"></span></p>
-                        <p><strong>Batas Waktu:</strong> <span id="modalBatasWaktu"></span></p>
-                        <p><strong>Kelas Tagihan:</strong> <span id="modalKelasTagihan"></span></p>
-                        <p><strong>Nominal:</strong> <span id="modalNominal"></span></p>
-                        <p><strong>Keterangan:</strong> <span id="modalKeterangan"></span></p>
-                        <p><strong>Terdaftar:</strong> <span id="modalTerdaftar"></span></p>
+                        <form action="{{ route('tagihan.siswas.save') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" class="form-control" name="nisn_id" id="nisn_id"
+                                value="{{ $tagihanSiswara->nisn }}">
+                            <input type="hidden" class="form-control" name="nama_lengkap_id" id="nama_lengkap_id"
+                                value="{{ $tagihanSiswara->nama_lengkap }}">
+                            <input type="hidden" class="form-control" name="pembayaran" value="Transfer">
+                            <input type="hidden" class="form-control" name="cash" value="0">
+                            <input type="hidden" class="form-control" name="status" value="pending">
 
-                        <div id="paymentAmountSection">
-                            {{-- <label for="paymentAmount"><strong>Tunai:</strong></label> --}}
-                            <form action="{{ route('tagihan.siswas.save') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <!-- Hidden inputs to store data -->
-                                <input type="hidden" class="form-control" name="nisn_id" id="nisn_id"
-                                    value="{{ $tagihanSiswara->nisn }}">
-                                <input type="hidden" class="form-control" name="nama_lengkap_id" id="nama_lengkap_id"
-                                    value="{{ $tagihanSiswara->nama_lengkap }}">
-                                <input type="hidden" class="form-control" name="tagihan" id="tagihan">
-                                <input type="hidden" class="form-control" name="tanggal" id="tanggal">
-                                <input type="hidden" class="form-control" name="batas_waktu" id="batas_waktu">
-                                <input type="hidden" class="form-control" name="kelas" id="kelas">
-                                <input type="hidden" class="form-control" name="nominal" id="nominal">
-                                <input type="hidden" class="form-control" name="keterangan" id="keterangan">
-                                <input type="hidden" class="form-control" name="terdaftar" id="terdaftar">
-                                <input type="hidden" class="form-control" name="pembayaran" value="Transfer">
+                            <div class="form-group">
+                                <label for="tagihan"><strong>Tagihan:</strong></label>
+                                <input type="text" class="form-control" name="tagihan" id="modalTagihan" readonly>
+                            </div>
 
-                                <!-- File input for bukti_pembayaran -->
+                            <div class="form-group">
+                                <label for="tanggal"><strong>Tanggal:</strong></label>
+                                <input type="text" class="form-control" name="tanggal" id="modalTanggal" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="batas_waktu"><strong>Batas Waktu:</strong></label>
+                                <input type="text" class="form-control" name="batas_waktu" id="modalBatasWaktu" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="kelas"><strong>Kelas:</strong></label>
+                                <input type="text" class="form-control" name="kelas" id="modalKelasTagihan" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nominal"><strong>Nominal:</strong></label>
+                                <input type="text" class="form-control" name="nominal" id="modalNominal" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="keterangan"><strong>Keterangan:</strong></label>
+                                <input type="text" class="form-control" name="keterangan" id="modalKeterangan" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="terdaftar"><strong>Terdaftar:</strong></label>
+                                <input type="text" class="form-control" name="terdaftar" id="modalTerdaftar" readonly>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="bukti_pembayaran"><strong>Bukti Pembayaran:</strong></label>
                                 <input type="file" class="form-control" name="bukti_pembayaran" id="bukti_pembayaran"
                                     accept="image/*,application/pdf">
+                            </div>
 
-                                <!-- Tunai input field -->
-                                <input type="hidden" class="form-control" name="cash" value="0">
-                                <input type="hidden" class="form-control" name="status" value="pending">
-
+                            <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
-                            </form>
-                        </div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+
                 </div>
             </div>
         </div>
+
     </div>
-
-
 
 @endsection
 
@@ -154,20 +161,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Iterasi untuk tabel tagihan
             let rows = document.querySelectorAll('table tbody tr');
 
             rows.forEach(function(row) {
-                // Ambil data keterangan dan terdaftar dari baris
                 let keterangan = row.querySelector('td:nth-child(7)').textContent.trim();
                 let terdaftar = row.querySelector('td:nth-child(8)').textContent.trim();
 
-                // Cek apakah keterangan dan terdaftar sama dengan yang ada di riwayat pembayaran
                 @foreach ($tagihanSiswas as $tagihanSiswa)
                     if (keterangan === '{{ addslashes($tagihanSiswa->keterangan) }}' &&
                         terdaftar ===
                         '{{ \Carbon\Carbon::parse($tagihanSiswa->terdaftar)->format('d F Y') }}') {
-                        row.style.display = 'none'; // Menyembunyikan baris jika data sama
+                        row.style.display = 'none';
                     }
                 @endforeach
             });
@@ -175,11 +179,10 @@
     </script>
 
     <script>
-        // Fungsi untuk menampilkan detail modal
         function showDetailModal(tagihan) {
             console.log('Tagihan Data:', tagihan);
 
-            // Menyisipkan data ke modal
+            // Populate modal fields
             document.getElementById('modalTagihan').innerText = tagihan.tagihan || 'No data available';
             document.getElementById('modalTanggal').innerText = tagihan.tanggal || 'No data available';
             document.getElementById('modalBatasWaktu').innerText = tagihan.batas_waktu || 'No data available';
@@ -189,9 +192,7 @@
             document.getElementById('modalKeterangan').innerText = tagihan.keterangan || 'No data available';
             document.getElementById('modalTerdaftar').innerText = tagihan.terdaftar || 'No data available';
 
-            // Isi input form dengan data yang benar
-            // document.querySelector('[name="nisn_id"]').value = tagihan.nisn_id;
-            // document.querySelector('[name="nama_lengkap_id"]').value = tagihan.nama_lengkap_id;
+            // Populate input fields with data
             document.querySelector('[name="tagihan"]').value = tagihan.tagihan;
             document.querySelector('[name="tanggal"]').value = tagihan.tanggal;
             document.querySelector('[name="batas_waktu"]').value = tagihan.batas_waktu;
@@ -199,26 +200,18 @@
             document.querySelector('[name="nominal"]').value = tagihan.nominal;
             document.querySelector('[name="keterangan"]').value = tagihan.keterangan;
             document.querySelector('[name="terdaftar"]').value = tagihan.terdaftar;
-            // document.querySelector('[name="cash"]').value = tagihan.paymentAmount || ''; // Cash field
+            document.querySelector('[name="cash"]').value = tagihan.paymentAmount || ''; // Cash field
         }
     </script>
+
+
     <script>
         function showBukti(imageUrl) {
-            // Set the source of the image to the URL provided
             document.getElementById('buktiImage').src = imageUrl;
-
-            // Show the modal
             $('#buktiModal').modal('show');
         }
     </script>
 
 
-
-
-    <!-- Bootstrap JS dan jQuery -->
-    {{-- <script src="{{ asset('/assets/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
-
-    <!-- Fungsi JavaScript custom -->
-    @yield('scripts')
 @endsection
+@yield('scripts')

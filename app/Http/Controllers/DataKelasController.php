@@ -14,14 +14,15 @@ class DataKelasController extends Controller
     // Display the list of classes
     public function index()
     {
+        // Ambil semua kelas dan hitung jumlah tagihan terkait
         // Ambil semua kelas, kecuali kelas yang bernama "SEMUA KELAS", dan hitung jumlah tagihan terkait
         $kelas = Kelas::withCount('tagihan') // Menghitung jumlah tagihan terkait dengan kelas
             ->where('kelas', '!=', 'SEMUA KELAS') // Memastikan kelas yang bernama "SEMUA KELAS" tidak ditampilkan
             ->get();
 
+
         return view('admin.data-kelas.index', compact('kelas'));
     }
-
 
 
     // Show the form to create a new class

@@ -21,7 +21,7 @@
                 <!-- NUPTK -->
                 <div class="form-group">
                     <label for="nuptk">NUPTK</label>
-                    <input type="text" class="form-control" id="nuptk" name="nuptk" required>
+                    <input type="number" class="form-control" id="nuptk" name="nuptk" required>
                 </div>
 
                 <!-- Nama Guru -->
@@ -39,7 +39,7 @@
                 <!-- Nomor Telepon -->
                 <div class="form-group">
                     <label for="nomor_telepon">Nomor Telepon</label>
-                    <input type="text" class="form-control" id="nomor_telepon" name="nomor_telepon" required>
+                    <input type="number" class="form-control" id="nomor_telepon" name="nomor_telepon" required>
                 </div>
 
                 <!-- Status -->
