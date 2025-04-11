@@ -202,21 +202,33 @@ class DataKelasController extends Controller
         // Find the tagihan by ID
         $tagihan = TagihanSiswa::findOrFail($request->tagihan_id);
 
-        // Update the tagihan status to 'disetujui'
+        // Update the tagihan status to 'diterima'
         $tagihan->status = 'disetujui';
 
         // Update the user field to the currently logged-in user
-        $tagihan->user = $user->id;  // Updated to store the logged-in user's ID in the 'user' column
+        $tagihan->user = $user->id;  // Store the logged-in user's ID in the 'user' column
 
         // Save the changes
         $tagihan->save();
 
         // Redirect with success message
-        return back()->with('success', 'Tagihan has been approved successfully!');
+        return back()->with('success', 'Tagihan telah diterima!');
     }
 
 
 
+
+    public function reject(Request $request)
+    {
+        // Find the tagihan by ID
+        $tagihan = TagihanSiswa::findOrFail($request->tagihan_id);
+
+        // Delete the tagihan if it's rejected
+        $tagihan->delete();
+
+        // Redirect with success message
+        return back()->with('success', 'Tagihan telah ditolak dan dihapus!');
+    }
 
 
 

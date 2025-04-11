@@ -44,7 +44,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data-kelas/{kelas_id}/tagihan-siswa/{tagihan_id}', [DataKelasController::class, 'tagihanSiswa'])->name('tagihan-siswa-detail');
     Route::get('/data-kelas/{id}/tagihan-siswa', [DataKelasController::class, 'tagihanSiswa'])->name('data-kelas.tagihanSiswa');
     Route::get('/data-kelas/{id}/tagihan', [DataKelasController::class, 'showTagihanSiswa'])->name('data-kelas.tagihan');
-    Route::post('/tagihan/approve', [DataKelasController::class, 'approve'])->name('approve.tagihan');
+    // Route for approving tagihan
+    Route::post('/approve-tagihan', [DataKelasController::class, 'approve'])->name('approve.tagihan');
+
+    // Route for rejecting tagihan
+    Route::post('/reject-tagihan', [DataKelasController::class, 'reject'])->name('reject.tagihan');
+
     Route::get('data-pembayaran', [DataPembayaranController::class, 'index'])->name('data-pembayaran.index');
     Route::get('data-kelas/tagihan/{id}', [DataPembayaranController::class, 'tagihanSiswa'])->name('data-kelas.tagihanSiswa');
     Route::get('/data-kelas/tagihan/{id}', [DataPembayaranController::class, 'tagihanSiswa']);

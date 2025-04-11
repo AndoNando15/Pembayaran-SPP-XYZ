@@ -123,8 +123,7 @@
                 </div>
             </div>
             <!-- Riwayat Pembayaran -->
-            <!-- Table for Pending Tagihan -->
-            <!-- Table for Pending Tagihan -->
+
             <div class="mb-4">
                 <h5 class="font-weight-bold">Tagihan Pending</h5>
                 <div class="table-responsive">
@@ -169,31 +168,71 @@
                                     </td>
                                     <td>Rp. {{ number_format($tagihan->cash, 0, ',', '.') }}</td>
                                     <td>
-                                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#approveModal"
-                                            onclick="openApproveModal({
-                                                id: {{ $tagihan->id }},
-                                                nisn_id: '{{ $tagihan->nisn_id }}',
-                                                nama_lengkap_id: '{{ $tagihan->nama_lengkap_id }}',
-                                                tagihan: '{{ $tagihan->tagihan }}',
-                                                tanggal: '{{ \Carbon\Carbon::parse($tagihan->tanggal)->format('d F Y') }}',
-                                                batas_waktu: '{{ \Carbon\Carbon::parse($tagihan->batas_waktu)->format('d F Y') }}',
-                                                kelas: '{{ $tagihan->kelas ?? 'N/A' }}',
-                                                nominal: {{ $tagihan->nominal }},
-                                                keterangan: '{{ $tagihan->keterangan }}',
-                                                terdaftar: '{{ \Carbon\Carbon::parse($tagihan->terdaftar)->format('d F Y') }}',
-                                                pembayaran: '{{ $tagihan->pembayaran }}',
-                                                bukti_pembayaran: '{{ $tagihan->bukti_pembayaran }}',
-                                                cash: {{ $tagihan->cash }},
-                                                user_id: {{ $user->id }}
-                                            })">
-                                            Approve
+                                        <!-- Button Terima -->
+                                        <button class="btn btn-success btn-sm" data-toggle="modal"
+                                            data-target="#terimaModal" onclick="openTerimaModal({{ $tagihan->id }})">
+                                            Terima
+                                        </button>
+
+                                        <!-- Button Tolak -->
+                                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#tolakModal"
+                                            onclick="openTolakModal({{ $tagihan->id }})">
+                                            Tolak
                                         </button>
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <!-- Modal Konfirmasi Terima -->
+            <div class="modal fade" id="terimaModal" tabindex="-1" aria-labelledby="terimaModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="terimaModalLabel">Konfirmasi Terima Tagihan</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Apakah Anda yakin ingin menerima tagihan ini?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form id="terimaForm" method="POST" action="{{ route('approve.tagihan') }}">
+                                @csrf
+                                <input type="hidden" name="tagihan_id" id="tagihanIdTerima">
+                                <button type="submit" class="btn btn-success">Terima</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Konfirmasi Tolak -->
+            <div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="tolakModalLabel">Konfirmasi Tolak Tagihan</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Apakah Anda yakin ingin menolak tagihan ini? Tagihan akan dihapus.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form id="tolakForm" method="POST" action="{{ route('reject.tagihan') }}">
+                                @csrf
+                                <input type="hidden" name="tagihan_id" id="tagihanIdTolak">
+                                <button type="submit" class="btn btn-danger">Tolak</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -255,7 +294,7 @@
                 <h5 class="font-weight-bold">Riwayat Pembayaran</h5>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
-                        <thead class="bg-primary text-white text-center">
+                        <thead>
                             <tr>
                                 <th>No</th>
                                 <th>User</th>
@@ -458,6 +497,19 @@
 @endsection
 
 @section('scripts')
+    <script>
+        // Fungsi untuk membuka modal Terima
+        function openTerimaModal(tagihanId) {
+            // Set ID tagihan yang akan diterima di dalam form
+            document.getElementById('tagihanIdTerima').value = tagihanId;
+        }
+
+        // Fungsi untuk membuka modal Tolak
+        function openTolakModal(tagihanId) {
+            // Set ID tagihan yang akan ditolak di dalam form
+            document.getElementById('tagihanIdTolak').value = tagihanId;
+        }
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -480,30 +532,7 @@
             });
         });
     </script>
-    <script>
-        function openApproveModal(tagihan) {
-            // Populate modal fields
-            document.getElementById('modalNisnId').innerText = tagihan.nisn_id;
-            document.getElementById('modalNamaLengkapId').innerText = tagihan.nama_lengkap_id;
-            document.getElementById('modalTagihan').innerText = tagihan.tagihan;
-            document.getElementById('modalTanggal').innerText = tagihan.tanggal;
-            document.getElementById('modalBatasWaktu').innerText = tagihan.batas_waktu;
-            document.getElementById('modalKelasTagihan').innerText = tagihan.kelas_tagihan;
-            document.getElementById('modalNominal').innerText = 'Rp. ' + new Intl.NumberFormat().format(tagihan.nominal);
-            document.getElementById('modalKeterangan').innerText = tagihan.keterangan;
-            document.getElementById('modalTerdaftar').innerText = tagihan.terdaftar;
-            document.getElementById('modalBuktiPembayaran').innerText = tagihan.bukti_pembayaran;
-            document.getElementById('modalCash').innerText = 'Rp. ' + new Intl.NumberFormat().format(tagihan.cash);
-            document.getElementById('modalUser').innerText = tagihan.user; // User
-            document.getElementById('modalPembayaran').innerText = tagihan.pembayaran;
 
-            // Set hidden input fields
-            document.getElementById('tagihanId').value = tagihan.id;
-            document.getElementById('user').value = tagihan.user;
-            document.getElementById('rejectTagihanId').value = tagihan.tagihanId;
-
-        }
-    </script>
     <script>
         // Fungsi untuk menampilkan detail modal
         function showDetailModal(tagihan) {
